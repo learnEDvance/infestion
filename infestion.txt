@@ -1,0 +1,331 @@
+INFESTION — BEGINNER BUILD GUIDE
+Project: Small browser game
+Technology: HTML + CSS + JavaScript
+Time limit: 2 days
+Purpose: Guide the student. Do not build the game automatically.
+
+==================================================
+0. RULES FOR THE CODING AGENT
+==================================================
+- Act as a patient programming tutor.
+- The student is a beginner.
+- Do not write the entire game in one response.
+- Do not silently create or rewrite many files.
+- Explain each step in short, precise points.
+- Give one small task at a time.
+- Explain what each new code block does.
+- Ask the student to type or adapt the code when practical.
+- Wait for the student to run the code and report what happened before moving on.
+- When fixing a bug, explain the cause before giving the fix.
+- Do not introduce libraries or frameworks.
+- Use only HTML, CSS, and plain JavaScript.
+- Use a browser for running the game. No build tools or package manager.
+- Keep all code beginner-readable. Avoid clever abstractions.
+- Do not add features outside this guide unless the student asks.
+- Never claim code was tested unless it was actually run.
+- Prefer small edits to the existing files over replacing entire files.
+- If the student gets stuck, reduce the task into smaller steps.
+
+==================================================
+1. GAME CONCEPT
+==================================================
+- Title: INFESTION.
+- Genre: Minimal network strategy game.
+- Screen background: Black.
+- People: Circles.
+- Connections between people: Thin white lines.
+- Healthy node: White.
+- Infected node: Red progress sector.
+- Recovering node: Yellow progress indicator.
+- Immune node: Green.
+- Dead node: Dark grey or a simple grey outline.
+- Player goal: Stop the outbreak by cutting connections and curing infected nodes.
+- Keep the first version small and playable.
+
+==================================================
+2. CORE GAME RULES
+==================================================
+- The game starts with a network of connected nodes.
+- One node starts infected.
+- An infected node can infect healthy nodes connected to it.
+- Infection cannot cross a removed connection.
+- The player clicks a line to cut that connection.
+- The player clicks an infected node to begin curing it.
+- An infected node has an infection progress value from 0 to 1.
+- Infection progress increases over time.
+- The red sector shows infection progress.
+- At progress 1, the node dies.
+- When curing begins, the node changes to recovering/yellow.
+- Recovery decreases the same progress value.
+- At progress 0, the node becomes immune/green.
+- A recovering node stops spreading infection immediately.
+- Immune nodes cannot be infected again.
+- Dead nodes cannot spread infection.
+- The game ends when the outbreak is resolved or everyone is lost.
+- Show a result message and allow restart.
+
+==================================================
+3. KEEP THE FIRST VERSION SIMPLE
+==================================================
+- Use one fixed network. Do not build a level generator initially.
+- Use about 15–25 nodes for the first playable version.
+- Start with one infected node.
+- Use one infection type.
+- Use one cure action.
+- Use one edge-cut action.
+- Do not add upgrades, currencies, multiple viruses, multiplayer, accounts, or leaderboards.
+- Do not add sound until the game works.
+- Do not add complex animations.
+- Do not use a game engine.
+- Do not use a JavaScript framework.
+- Use HTML Canvas for drawing the graph.
+- Use CSS for the page layout and simple buttons.
+- Use JavaScript for node data, input, timers, infection, recovery, and win/loss checks.
+
+==================================================
+4. FILES
+==================================================
+- Create a folder named CUT-TIES.
+- Create index.html.
+- Create style.css.
+- Create game.js.
+- index.html contains the page structure and the canvas.
+- style.css contains the black background, text, spacing, and button styles.
+- game.js contains the game logic and drawing.
+- Link style.css from index.html.
+- Link game.js from index.html.
+- Keep the three files in the same folder.
+- Open index.html in a browser to run the game.
+- If a browser blocks or mishandles a feature, ask the student before adding any tools.
+
+==================================================
+5. BUILD ORDER — FOLLOW THIS ORDER
+==================================================
+- Do not start a later step until the current step works.
+- Make one change at a time.
+- Save and refresh the browser after each change.
+
+STEP 1 — CREATE THE PAGE
+- Create index.html.
+- Add a page title: INFESTION.
+- Add a heading that says INFESTION.
+- Add one HTML canvas element.
+- Add a small instruction line.
+- Link style.css and game.js.
+- Open the page in the browser.
+- Check that the heading and empty canvas appear.
+
+STEP 2 — STYLE THE PAGE
+- Create style.css.
+- Set the page background to black.
+- Set the main text colour to white.
+- Remove the browser's default body margin.
+- Give the canvas a visible size.
+- Keep the layout simple and centred.
+- Check that the page is readable.
+
+STEP 3 — DRAW ONE NODE
+- In game.js, find the canvas element.
+- Get its 2D drawing context.
+- Draw one white circle.
+- Use a function for drawing a circle.
+- Refresh the page.
+- Confirm that the circle appears.
+
+STEP 4 — DRAW MANY NODES
+- Store node positions in a JavaScript array.
+- Give each node an ID, x position, y position, state, and progress.
+- Draw every node by looping through the array.
+- Use a small fixed set of positions.
+- Confirm that all nodes appear.
+
+STEP 5 — DRAW CONNECTIONS
+- Store connections as pairs of node IDs.
+- Draw a thin white line between each pair.
+- Draw lines before drawing circles.
+- This makes circles appear on top of lines.
+- Confirm that the network is visible.
+
+STEP 6 — DRAW NODE STATES
+- Healthy nodes are white circles.
+- Infected nodes have a red pie sector.
+- Recovering nodes use a yellow progress display.
+- Immune nodes are green circles.
+- Dead nodes are grey or outlined.
+- Start by manually assigning one node to each state for testing.
+- Confirm that every state is visually distinguishable.
+
+STEP 7 — ANIMATE INFECTION PROGRESS
+- Give each infected node a progress value between 0 and 1.
+- Use requestAnimationFrame for the game loop.
+- Calculate elapsed time between frames.
+- Increase infection progress according to elapsed time.
+- Convert progress into an angle: progress multiplied by 2π.
+- Draw the red sector from the centre of the circle.
+- Clamp progress so it never goes below 0 or above 1.
+- When progress reaches 1, change the node to dead.
+- Test this before adding infection spread.
+
+STEP 8 — ADD NODE CLICKING
+- Listen for mouse clicks on the canvas.
+- Convert the mouse position into canvas coordinates.
+- Check whether the click is inside a node's radius.
+- If an infected node is clicked, change its state to recovering.
+- Ignore clicks on dead, immune, or already recovering nodes.
+- Use a forgiving click radius.
+- Test node clicking before adding edge clicking.
+
+STEP 9 — ADD RECOVERY
+- Recovering nodes decrease their progress over time.
+- Draw the recovery progress in yellow.
+- If progress reaches 0, set progress to 0 and state to immune.
+- Recovering nodes must stop spreading infection immediately.
+- Test a cure from early infection and late infection.
+- Keep recovery deterministic for the first version.
+- Do not add a random chance of death during recovery.
+
+STEP 10 — ADD EDGE CUTTING
+- If a click is not on a node, check whether it is near a line.
+- Calculate the shortest distance from the click point to each line segment.
+- If the distance is within the allowed click tolerance, remove that connection.
+- Do not draw removed connections.
+- Infection must not cross removed connections.
+- Test that clicking a line removes only that line.
+- If node clicking and edge clicking conflict, give node clicks priority.
+
+STEP 11 — ADD INFECTION SPREAD
+- Give infected nodes a spread timer.
+- When the timer reaches its interval, check connected neighbours.
+- Only healthy neighbours can become infected.
+- For the first version, use a simple fixed spread rule or a modest probability.
+- Newly infected nodes start with progress 0.
+- Take a snapshot of eligible infections before changing node states.
+- Do not allow a newly infected node to spread again during the same tick.
+- Reset the spreading node's timer.
+- Test spread across a line, then test again after cutting that line.
+
+STEP 12 — ADD COUNTERS
+- Display counts for healthy, infected, recovering, immune, and dead nodes.
+- Recalculate counts from node states.
+- Update the display as states change.
+- Keep the counters outside the canvas if that is easier.
+
+STEP 13 — ADD PAUSE AND RESTART
+- Add a pause/resume button.
+- Pausing stops simulation timers but does not clear the graph.
+- Add a restart button.
+- Restart restores the initial node states and all original connections.
+- Test both buttons.
+
+STEP 14 — ADD END CONDITIONS
+- Victory: no infected or recovering nodes remain and all living nodes are immune.
+- Defeat: all nodes are dead.
+- If healthy nodes remain while infection is gone, do not declare victory automatically; define them as still at risk.
+- Freeze the simulation when the game ends.
+- Show a clear victory or defeat message.
+- Allow the player to restart.
+
+STEP 15 — TEST THE GAME
+- Refresh the page and start a fresh run.
+- Confirm that infection spreads.
+- Confirm that cutting a connection blocks spread across that connection.
+- Confirm that curing turns red progress into yellow recovery progress.
+- Confirm that recovery ends in green immunity.
+- Confirm that progress reaching 100% causes death.
+- Confirm that counts update.
+- Confirm that pause works.
+- Confirm that restart restores the initial game.
+- Confirm that a run can end in victory and defeat.
+- Fix errors before adding polish.
+
+==================================================
+6. VISUAL AND INPUT DETAILS
+==================================================
+- Use a black background: #000000 or near-black.
+- Use white lines and white healthy nodes.
+- Use a clear red for infection.
+- Use yellow for recovery.
+- Use green for immunity.
+- Use grey for dead nodes.
+- Keep lines thin.
+- Keep circles large enough to click.
+- Avoid overlapping nodes where possible.
+- Draw lines first, then progress sectors, then circle outlines.
+- Display this instruction: CLICK INFECTED NODES TO CURE • CLICK LINES TO CUT.
+- Use a small number of interface elements.
+- Do not use emojis in the game interface unless the student chooses to.
+
+==================================================
+7. IMPORTANT PROGRAMMING RULES
+==================================================
+- Use requestAnimationFrame for drawing.
+- Use elapsed time (delta time) for progress and timers.
+- Do not change game speed based on frame rate.
+- Keep node states as consistent strings or constants.
+- Use one source of truth for node state and progress.
+- Keep drawing functions separate from simulation functions.
+- Keep input handling separate from infection updates.
+- Avoid duplicating the same node in the graph.
+- Remove edges symmetrically if using adjacency lists.
+- If using an edge list, ensure the removed edge is not used for spread.
+- Check the browser console for JavaScript errors.
+- Explain errors in beginner-friendly language.
+
+==================================================
+8. TWO-DAY SCHEDULE
+==================================================
+DAY 1
+- Page and canvas.
+- Black styling.
+- Draw nodes and lines.
+- Draw the coloured states.
+- Animate the infection sector.
+- Implement node clicking and curing.
+- End Day 1 with visible infection and recovery.
+
+DAY 2
+- Implement edge cutting.
+- Implement infection spread.
+- Add counters.
+- Add pause and restart.
+- Add victory and defeat.
+- Test multiple runs.
+- Fix bugs.
+- Write a short README only if time remains.
+
+==================================================
+9. DONE MEANS
+==================================================
+- The page opens in a browser.
+- The graph is visible.
+- Infection progress grows visibly.
+- Curing reverses infection progress.
+- Successful recovery creates an immune node.
+- A fully infected node dies.
+- Cutting a line prevents spread across it.
+- Infection spreads only over existing connections.
+- The counters are correct.
+- Pause and restart work.
+- Victory and defeat are possible.
+- The student understands the code well enough to explain the main loop and node states.
+
+==================================================
+10. AGENT RESPONSE FORMAT
+==================================================
+At each step, respond with:
+- GOAL: one sentence.
+- DO: a short numbered list of actions.
+- CODE: only the small code needed for the current step.
+- EXPLAIN: brief explanation of new concepts.
+- TEST: exact steps the student should perform.
+- EXPECTED RESULT: what should appear or happen.
+- WAIT: ask the student to report the result before continuing.
+
+Do not provide all steps' code at once.
+Do not skip ahead.
+Do not take over the project.
+Help the student build and understand it.
+
+FINAL PRINCIPLE
+The student is the developer. The agent is the guide.
+Keep INFESTION small, understandable, and playable.
